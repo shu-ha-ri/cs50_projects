@@ -1,0 +1,161 @@
+{% extends "auctions/layout.html" %}
+
+{% load static %}
+{% block body %}
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                <div class="alert alert-success" role="alert">{{message}}</div>
+            {% endif %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                <div class="alert alert-danger" role="alert">{{message}}</div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    {% if auction_listing.user != request.user %}
+        {% if watchlist_item %}
+        <div class="alert alert-primary" role="alert"><i class="bi bi-star-fill"></i> Item is on your watchlist. <span style="float:right;"><a href="{% url 'remove_from_watchlist' auction_listing.id %}">Remove?</a></span></div>
+        {% else %}
+        <a href="{% url 'add_to_watchlist' auction_listing.id %}"><button class="btn btn-secondary" style="float:right"><i class="bi bi-star-fill"></i> Add to Watchlist</button></a>
+        {% endif %}
+    {% endif %}
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12"> 
+            <h2>
+                {{ auction_listing.title|title }} 
+            </h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-6 col-lg-6">
+            {% if auction_listing.image %}
+                <img src="{{ auction_listing.image }}" class="card-img-top auction-detail-img" alt="Auction Image">
+            {% else %}
+                <img src="{% static 'auctions/image_placeholder.png' %}" class="card-img-top auction-detail-img" alt="Auction Image">
+            {% endif %}
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-6">
+            <h4>Details:</h3>
+            <table class="table table-light">
+                <tbody>
+                    <tr>
+                        <td>Created:</th>
+                        <td>{{ auction_listing.created_at }}</td>
+                    </tr>
+                    <tr>
+                        <td>Starting Price:</th>
+                        <td>$ {{ auction_listing.initial_price }}</td>
+                    </tr>
+                    <tr>
+                        <td>Current Price:</td>
+                        <td>$ {{ auction_listing.get_current_price }} ({{ auction_listing.get_bid_count }} bid{% if auction_listing.get_bid_count > 1 %}s{% endif %})</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            {% if auction_listing.user == request.user %}
+                            Highest bid by: {{ auction_listing.get_highest_bid_user }}
+                            {% else %}
+                                {% if auction_listing.get_highest_bid_user ==  request.user %}
+                                    {% if auction_listing.active %}
+                                    <p style="font-weight: bold;">You currently have the highest bid!</p>
+                                    {% else %}
+                                    <p style="font-weight: bold;color:green;">You have won the auction!</p>
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Auction Status:</td>
+                        <td>
+                            {% if auction_listing.active %}
+                            <span style="color:green;">Active</span>
+                            {% else %}
+                            <span style="color:red;">Closed</span>
+                            {% endif %}
+                        </td>
+                        </tr>
+                    {% if auction_listing.active %}
+                        {% if auction_listing.user == request.user %}    
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <a href="{% url 'close_auction' auction_listing.id %}"><button class="btn btn-danger">Close Auction</button></a>
+                                </td>
+                            </tr>
+                        {% else %}    
+                            <tr>
+                                <form action="{% url 'create_bid' %}" method="POST">
+                                {% csrf_token %}
+                                <th scope="row">Place Bid: </th>
+                                <td>
+                                    <div class="form-row">
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                            <div class="input-group-text">$</div>
+                                            </div>
+                                            <input type="number" name="bid_price" id="bid_price" class="form-control">
+                                        </div>
+                                        <div class="col-auto">
+                                            <input type="hidden" value="{{ auction_listing.id }}" name="auction_listing_id">
+                                            <button type="submit" class="btn btn-primary mb-2" style="float:right;">Bid!</button>
+                                        </div>
+                                    </div>
+                                </td>
+                                </form>
+                            </tr>
+                        {% endif %}
+                    {% else %}
+                        {% if auction_listing.user == request.user %}
+                        <tr>
+                            <td>
+                                Winner:
+                            </td>
+                            <td>
+                                <a href="{% url 'show_user' auction_listing.get_highest_bid_user.id %}">{{ auction_listing.get_highest_bid_user }}</a>
+                            </td>
+                        </tr>
+                        {% else %}
+                        {% endif %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <h4>Auction Description:</h3>
+            <p>
+                {{ auction_listing.description }}
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <h4>User Comments:</h3>
+            <form action="{% url 'create_comment' %}" method="POST">
+                {% csrf_token %}
+                <textarea name="comment" id="comment"></textarea>
+                <input type="hidden" value="{{ auction_listing.id  }}" name="auction_listing_id">
+                <input type="submit" value="Send Comment">
+            </form>
+            {% if auction_listing.comments.all %}
+            {% for comment in auction_listing.comments.all %}
+            <div class="card col-sm-12 col-md-12 col-lg-12 comment-card">
+                <h5 class="card-header">{{ comment.author }}</h5>
+                <p class="card-text">{{ comment.comment }}</p>
+                <footer class="blockquote-footer">{{ comment.created_at }}</footer>
+            </div>  
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+            
+
+{% endblock %}
+

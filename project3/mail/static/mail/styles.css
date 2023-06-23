@@ -1,0 +1,49 @@
+textarea {
+    min-height: 400px;
+}
+
+
+#messages-view {
+    padding: 10px;
+}
+
+.email {
+    border: 1px solid lightgray;
+    border-radius: 4px;
+    padding: 5px 10px;
+    margin: 5px 0;
+    overflow: auto;
+}
+
+.email.read {
+    background: #efefef;
+}
+
+.email.unread {
+    background: white;
+}
+
+.email-head {
+    overflow: auto;
+    padding-bottom: 5px;
+    border-bottom: 1px solid lightgray;
+}
+
+.email:hover {
+    border: 1px solid lightblue;
+    cursor: pointer;
+}
+
+.subject {
+    float: left;
+}
+
+.sent {
+    float: right;
+    font-style: italic;
+}
+
+.from {
+    float: left;
+    font-style: italic;    
+}

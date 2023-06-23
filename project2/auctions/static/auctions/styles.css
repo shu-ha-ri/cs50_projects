@@ -1,0 +1,37 @@
+body {
+    padding: 10px;
+}
+
+.auction-index-img {
+    object-fit: cover;
+    width: 100%;
+    height: 250px;
+}
+
+.auction-detail-img {
+    object-fit: cover;
+    width: 100%;
+    height: auto;
+  
+}
+
+.auction-card {
+    margin: 0 0 0 0;
+    box-shadow: 1px 1px #eeeeee;
+}
+
+.auction-card:hover {
+    box-shadow: 2px 2px rgb(205, 224, 255);
+}
+
+.comment-card {
+    box-shadow: 1px 1px #eeeeee;
+}
+
+.comment-card .card-text{
+    padding: 10px;
+}
+
+.comment-card footer {
+    padding: 0 10px;
+}

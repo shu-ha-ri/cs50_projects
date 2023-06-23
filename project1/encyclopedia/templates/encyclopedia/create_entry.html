@@ -1,0 +1,47 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Encyclopedia: New Entry
+{% endblock %}
+
+{% block custom_script %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // deactivate content box and submit button until we have title
+        document.querySelector("#create_entry_button").disabled = true;
+        document.querySelector("#markdown_content").disabled = true;
+
+        document.querySelector("#title").onkeyup = () => {
+            if (document.querySelector("#title").value.length > 0) {
+                // if title present and valid, activate content box
+                document.querySelector("#markdown_content").disabled = false;
+                document.querySelector("#markdown_content").onkeyup = () => {
+                    if (document.querySelector("#markdown_content").value.length > 0) {
+                        // if content box filled and valid, activate submit button
+                        document.querySelector("#create_entry_button").disabled = false;    
+                    } else {
+                        document.querySelector("#markdown_content").disabled = true;
+                     }
+                 }
+            } else {
+                // if not, keep content box and submit button deactivated
+                document.querySelector("#create_entry_button").disabled = true;
+                document.querySelector("#markdown_content").disabled = true;
+            }
+        }
+    });
+</script>
+{% endblock %}
+
+{% block body %}
+    <h1>Create New Entry</h1>
+    <hr>
+    <form action="{% url 'create_entry' %}" method="POST">
+        {% csrf_token %}
+        <label for="title">(1) Please insert Title:</label> <input type="text" id="title" name="title" placeholder="Title">
+        <label for="markdown_content">(2) Please insert Entry using Markup (<a href="https://www.markdownguide.org/basic-syntax/" target="_blank">Guidelines</a>):</label>
+        <textarea id="markdown_content" name="markdown_content"></textarea>
+        <input type="submit" id="create_entry_button" value="Create Entry">
+    </form>
+
+{% endblock %}

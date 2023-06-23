@@ -1,0 +1,16 @@
+- model: auctions.auctionlistingcategory
+  pk: 1
+  fields:
+    name: Fashion
+- model: auctions.auctionlistingcategory
+  pk: 2
+  fields:
+    name: Toys
+- model: auctions.auctionlistingcategory
+  pk: 3
+  fields:
+    name: Electronics
+- model: auctions.auctionlistingcategory
+  pk: 4
+  fields:
+    name: Home

@@ -1,0 +1,57 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Create New Listing</h2>
+        <form class="needs-validation" novalidate="" action="{% url 'create_listing' %}" method="POST">
+            {% csrf_token %}
+            <div class="row g-3">
+              <div class="col-sm-12">
+                <label for="title" class="form-label">Listing Title</label>
+                <input type="text" class="form-control" name="title" id="title" placeholder="" value="" required="true">
+                <div class="invalid-feedback">
+                  A valid title is required.
+                </div>
+
+                <div class="col-12">
+                    <label for="initial_price" class="form-label">Starting Bid in $</label>
+                    <input type="number" class="form-control" name="initial_price" id="initial_price" placeholder="" required="true">
+                    <div class="invalid-feedback">
+                      Please enter a valid desired starting bid.
+                    </div>
+                  </div>
+            
+                <div class="col-sm-12">
+                    <label for="description" class="form-label">Listing Description</label>
+                    <textarea class="form-control" name="description" id="description" rows="10" required></textarea>
+                    <small class="text-body-secondary">Please describe your listing as detailed as possible.</small>
+                    <div class="invalid-feedback">
+                        A valid description is required.
+                      </div>
+                  </div>
+
+            <hr>
+            <h2>Optional Information</h2>
+            <div class="row">
+              <div class="col">
+                <label for="category" class="form-label">Category</label>
+                <select class="form-select" id="category" name="category" required="">
+                  <option value="">Choose...</option>
+                  {% for category in auction_listing_categories %}
+                    <option value="{{ category.id }}">{{ category.name }}</option>
+                  {% endfor %}
+                </select>
+                <div class="invalid-feedback">
+                  Please select a valid country.
+                </div>
+              </div>
+              <div class="col">
+                <label for="image" class="form-label">Image URL</label>
+                <input type="text" class="form-control" name="image" id="image" placeholder="https://..." value="" required="">
+              </div>
+            </div>
+            <hr>
+            <input class="w-100 btn btn-primary btn-lg" type="submit" value="Create Listing">
+          </form>
+
+{% endblock %}
+

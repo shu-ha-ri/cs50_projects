@@ -1,0 +1,42 @@
+{% extends "auctions/layout.html" %}
+
+{% load static %}
+{% block body %}
+    {% if 'show_watchlist' in request.path %}
+        <h2>Your Watchlist</h2>
+    {% elif 'category' in request.path %}
+        <h2>Items in category: {{ category.name }}</h2>
+    {% else %}
+        <h2>All Active Listings</h2>
+    {% endif %}
+    <div class="container">
+        <div class="row">   
+            {% for auction_listing in auction_listings %}
+            <div class="card col-sm-6 col-md-4 col-lg-4 auction-card">
+                {% if auction_listing.image %}
+                    <img src="{{ auction_listing.image }}" class="card-img-top auction-index-img" alt="Auction Image">
+                {% else %}
+                    <img src="{% static 'auctions/image_placeholder.png' %}" class="card-img-top auction-index-img" alt="Auction Image">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ auction_listing.title|title }}</h5>
+                    <div class="card-text">
+                        <p style="font-style: italic;">
+                            {{ auction_listing.description|truncatechars:100 }}
+                        </p>
+                    </div>
+                    <hr>
+                    <p style="font-weight: bold;">Curreny Price: ${{ auction_listing.get_current_price }}</p>
+                    <p style="color:darkgrey"><small>Created: {{ auction_listing.created_at }}</small></p>
+                    <p style="text-align: right;">
+                        <a href="{% url 'show_listing' auction_listing.id %}">
+                            <button type="button" class="btn btn-primary btn-block">View <i class="bi bi-arrow-right-circle-fill"></i></button>
+                        </a>
+                    </p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+{% endblock %}

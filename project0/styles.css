@@ -1,0 +1,174 @@
+/* removing all default margins and paddings to get full control */
+* {
+    margin: 0;
+    padding: 0;
+} 
+
+body {
+	background-color: #ffffff;
+}
+
+/* Flex Box to allow box rezising on diff. screen ports */
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Top navigation bar */
+.top-nav {
+    display: flex;
+    padding: 6px 60px;
+    height: 60px;
+    flex-shrink: 0;
+    box-sizing: border-box;
+	background-color: #ffffff;
+}
+
+/* Wrapper around navigation items to set inline behaviour for all of them at once */
+.top-nav-wrapper {
+	display: inline-block;
+    flex-grow: 1;
+}
+
+/* Pulling navigation to the right using float and setting styles for links */
+.top-nav-pull-right {
+    font: 13px/27px Roboto,Arial,sans-serif;
+	margin: 0 12px 0 0;
+	float: right;
+}
+
+/* removing underline to bring it back in :hover for visual effect as color stays the same */
+.top-nav-pull-right a {
+	color: black;
+	text-decoration: none;
+	margin: 0 0 0 12px;
+}
+
+.top-nav-pull-right a:hover {
+	text-decoration: underline;	
+}
+
+/* Wrapper around center content */
+.center-wrapper {
+	display: flex;
+    flex-direction: column;
+   	align-items: center;
+   	padding: 60px 0;
+}
+
+/* Wrapper around center content on advanced search */
+.center-wrapper-advanced {
+	display: flex;
+    flex-direction: column;
+   	align-items: left;
+   	padding: 20px 0 0 60px;
+}
+
+/* Aligning in center; Break defined in input style below */
+.search-form {
+	text-align: center;
+}
+
+/* Search for in advanced search is aligned left */
+.search-form-advanced {
+	text-align: left;
+}
+
+/* flex 100% to fill whole row and move button below, padding for distance to rounded corners */
+.search-bar {
+    border: 1px solid #2a2a2a;
+    border-radius: 24px;
+	font-family: arial,sans-serif;
+    margin: 0 0 10px 0;
+    color: #2a2a2a;
+    display: flex;
+    flex: 100%;
+    font-size: 13px/27px Roboto,Arial,sans-serif;
+    min-width: 300px;
+    padding: 10px 10px;
+}
+
+
+/* Search bars in advanced search look different */
+.search-bar-advanced {
+	margin: 10px 0;
+	flex: 100%;
+	font: 13px/27px Roboto,Arial,sans-serif;
+}
+
+/* Avoid input button to stretch by defining text inputs only */
+.search-bar-advanced input[type=text] {
+	font: 13px/27px Roboto,Arial,sans-serif;
+	min-width: 300px;
+}
+
+/* No style requested, but aded padding for readability improvement */
+.search-button {
+	padding: 10px;
+	background-color: #f8f9fa;
+	border: 1px solid #e5e6e7;
+	border-radius: 2px;
+}
+
+/* Advanced search button is blue and has different styling */
+.search-button-advanced {
+	float: right;
+	background-color: #4d90fe;
+	background-image: -webkit-linear-gradient(top,#4d90fe,#4787ed);
+	background-image: -moz-linear-gradient(top,#4d90fe,#4787ed);
+    background-image: -ms-linear-gradient(top,#4d90fe,#4787ed);
+    background-image: -o-linear-gradient(top,#4d90fe,#4787ed);
+    background-image: linear-gradient(top,#4d90fe,#4787ed);
+	padding: 5px 10px;
+	border: none;
+	color: white;
+	user-select: none;
+    line-height: 100%;
+    height: 30px;
+    min-width: 120px;
+    border: 1px solid #3079ed;
+    border-radius: 2px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.search-button-advanced:hover {
+	cursor: pointer;
+	box-shadow: 1px 1px #e5e6e7;
+}
+
+/* adding pointer mouse cursor to indicate link */
+.search-button:hover {
+	cursor: pointer;
+	box-shadow: 1px 1px #e5e6e7;
+}
+
+/* Using this table to align advanced search inputs and their labels */
+.advanced-search-table th, td {
+  padding: 5px 10px 5px 0;
+}
+
+/* Main logo is centered above search bar */
+.logo {
+	margin: 20px;
+	max-width: 300px;
+}
+
+/* Advanced saerch logo is in navigation bar */
+.logo-advanced {
+	max-width: 200px;	
+}
+
+/* Following Google CSS, there is a red heading above advanced search */
+.advanced-search-red-heading {
+	padding: 40px 0 20px 60px;
+	border-bottom: 1px solid #dcdcdc;
+	width: 100%;
+}
+
+.advanced-search-red-heading h1 {
+	color: #d93025;
+    vertical-align: baseline;
+    font: 20px Roboto,Arial,sans-serif;
+}

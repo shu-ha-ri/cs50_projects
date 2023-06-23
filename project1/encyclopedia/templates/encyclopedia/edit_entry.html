@@ -1,0 +1,43 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Encyclopedia: New Entry
+{% endblock %}
+
+{% block custom_script %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelector("#title").onkeyup = () => {
+            if (document.querySelector("#title").value.length > 0) {
+                // if title present and valid, activate content box
+                document.querySelector("#markdown_content").disabled = false;
+                document.querySelector("#markdown_content").onkeyup = () => {
+                    if (document.querySelector("#markdown_content").value.length > 0) {
+                        // if content box filled and valid, activate submit button
+                        document.querySelector("#create_entry_button").disabled = false;    
+                    } else {
+                        document.querySelector("#markdown_content").disabled = true;
+                     }
+                 }
+            } else {
+                // if not, keep content box and submit button deactivated
+                document.querySelector("#create_entry_button").disabled = true;
+                document.querySelector("#markdown_content").disabled = true;
+            }
+        }
+    });
+</script>
+{% endblock %}
+
+{% block body %}
+    <h1>Edit the content for Wiki Entry: {{ title }}</h1>
+    <hr>
+    <form action="{% url 'edit_entry' title %}" method="POST">
+        {% csrf_token %}
+        <label for="markdown_content">Please edit the Entry using Markup (<a href="https://www.markdownguide.org/basic-syntax/" target="_blank">Guidelines</a>):</label>
+        <input type="hidden" name="title" value="{{ title }}">
+        <textarea id="markdown_content" name="markdown_content">{{ content }}</textarea>
+        <input type="submit" id="create_entry_button" value="Update Entry">
+    </form>
+
+{% endblock %}

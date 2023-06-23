@@ -1,0 +1,10 @@
+{% extends "auctions/layout.html" %}
+
+{% load static %}
+{% block body %}
+    <h2>Username: {{ user.username }}</h2>
+    <hr>
+    <h2>User's auctions:</h2>
+    {% for user_auction in user_auctions %}
+    {% endfor %}    
+{% endblock %}

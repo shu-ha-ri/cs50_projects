@@ -1,0 +1,12 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Encyclopedia: {{ search_string }}
+{% endblock %}
+
+{% block body %}
+    {{ entry|safe }}
+
+    <a href="{% url 'edit_entry' search_string %}" target="_self">Edit entry</a>
+{% endblock %}
+
