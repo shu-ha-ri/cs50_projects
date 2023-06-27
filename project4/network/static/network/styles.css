@@ -1,0 +1,24 @@
+
+.pagination-current {
+    margin: 5px 15px;
+}
+
+.edit-post-form {
+    display: none;
+}
+
+#messages-view {
+    padding: 10px;
+}
+
+.cancel-edit-post {
+    display: none;
+}
+
+.like-toggle-button {
+    text-decoration: none;
+}
+
+.create-post {
+    border-color: #88ccff;
+}

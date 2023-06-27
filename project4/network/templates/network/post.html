@@ -1,0 +1,47 @@
+{% load post_list_extras %}
+
+<div class="card post-card mb-3 shadow-sm">
+    <div class="card-header">
+        <div class="float-start">
+            <a href={% url "show_user" post.user.id %} alt="user profile">{{ post.user }}</a> posted:<br>    
+        </div>
+        {% if user == post.user %}
+            <div class="float-end">
+                <button id="post-{{ post.id }}-edit-button" data-post-id="{{ post.id }}" class="edit-post btn btn-secondary btn-sm">Edit</button>
+            </div>
+            <div class="float-end">
+                <button id="post-{{ post.id }}-cancel-edit-button" data-post-id="{{ post.id }}" class="cancel-edit-post btn btn-secondary btn-sm">Cancel</button>
+            </div>
+        {% endif %}
+    </div>
+    <div class="card-body">
+        <div id="post-{{ post.id }}-body-div">
+            <div id="post-{{ post.id }}-body">
+                {{ post.body }}
+            </div>
+            <form action="javascript:void(0)" class="edit-post-form" id="post-{{ post.id }}-form">
+                <textarea class="form-control" id="post-{{ post.id }}-textarea">{{ post.body }}</textarea>
+                <input type="submit" data-post-id="{{ post.id }}" class="send-edit-post btn btn-primary btn-sm" value="Update">
+            </form>
+        </div>
+    </div>
+    <div class="card-footer">
+        <div class="float-start">
+            {% if user.is_authenticated %}
+                <a href="javascript:void(0)" data-post-id="{{ post.id }}" class="like-toggle-button">
+            {% endif %}    
+            {% if user in post.user_likes.all %}
+                <i class="bi bi-heart-fill"></i>
+            {% else %}
+                <i class="bi bi-heart"></i>
+            {% endif %}
+            {% if user.is_authenticated %}
+                </a>
+            {% endif %}
+            <span id="post-{{ post.id }}-like-count">{{ post.count_likes }}</span>
+        </div>
+        <div class="float-end">
+            {{ post.updated_at }}
+        </div>        
+    </div>
+</div>

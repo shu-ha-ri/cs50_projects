@@ -115,6 +115,10 @@ def show_listing(request, auction_listing_id):
          })
 
 
+def edit_listing(request):
+    pass
+
+
 @login_required
 def remove_from_watchlist(request, auction_listing_id):
     """ 

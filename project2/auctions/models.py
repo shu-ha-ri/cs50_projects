@@ -51,8 +51,11 @@ class AuctionListing(models.Model):
         return len(Bid.objects.filter(auction_listing=self).all())
         
     def get_highest_bid_user(self):
-        higest_bid = Bid.objects.filter(auction_listing=self).order_by('-bid_price')[0]
-        return higest_bid.user
+        higest_bid = Bid.objects.filter(auction_listing=self).order_by('-bid_price')
+        if higest_bid:
+            return higest_bid[0].user
+        else:
+            return None
         
     def is_on_user_watchlist(self, user):
         watchlist_item = WatchlistItem.objects.filter(

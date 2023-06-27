@@ -1,0 +1,39 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-header">
+            <h2>
+                {{ profile_user.username }}
+                {% if profile_user != request.user %}
+                    <div id="" class="float-end">
+                        <form action="/users/{{ profile_user.id }}/followers" method="POST">
+                            {% csrf_token %}
+                            {% if currently_following %}
+                                <button class="btn btn-secondary">Unfollow <i class="bi bi-bookmark-star-fill"></i></button>
+                            {% else %}
+                                <button class="btn btn-primary">Follow <i class="bi bi-bookmark-star"></i></button>
+                            {% endif %}
+                        </form>
+                    </div>
+                {% endif %}
+            </h2>
+            <div class="badge bg-primary text-wrap" style="width: 6rem;">
+                Followers: {{ profile_user.get_active_followers.count }}
+            </div>
+            <div class="badge bg-primary text-wrap" style="width: 6rem;">
+                Following: {{ profile_user.get_active_following.count }}
+            </div>
+        </div>
+        <div class="card-body">
+            <p class="text-body-secondary">Total Posts: {{ profile_user.posts.count }}</p>
+            {% for post in profile_user.get_reverse_chronological_posts %}
+                {% include "network/post.html" %}
+            {% endfor %}
+
+        </div> 
+        
+    </div>
+    
+
+{% endblock %}

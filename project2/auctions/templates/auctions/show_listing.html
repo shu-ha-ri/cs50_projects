@@ -12,13 +12,13 @@
             {% endif %}
         {% endfor %}
     {% endif %}
-    {% if auction_listing.user != request.user %}
-        {% if watchlist_item %}
-        <div class="alert alert-primary" role="alert"><i class="bi bi-star-fill"></i> Item is on your watchlist. <span style="float:right;"><a href="{% url 'remove_from_watchlist' auction_listing.id %}">Remove?</a></span></div>
-        {% else %}
-        <a href="{% url 'add_to_watchlist' auction_listing.id %}"><button class="btn btn-secondary" style="float:right"><i class="bi bi-star-fill"></i> Add to Watchlist</button></a>
-        {% endif %}
+    
+    {% if watchlist_item %}
+    <div class="alert alert-primary" role="alert"><i class="bi bi-star-fill"></i> Item is on your watchlist. <span style="float:right;"><a href="{% url 'remove_from_watchlist' auction_listing.id %}">Remove?</a></span></div>
+    {% else %}
+    <a href="{% url 'add_to_watchlist' auction_listing.id %}"><button class="btn btn-secondary" style="float:right"><i class="bi bi-star-fill"></i> Add to Watchlist</button></a>
     {% endif %}
+    
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12"> 
             <h2>
@@ -56,11 +56,15 @@
                         <td></td>
                         <td>
                             {% if auction_listing.user == request.user %}
-                            Highest bid by: {{ auction_listing.get_highest_bid_user }}
+                                {% if auction_listing.get_highest_bid_user %}
+                                    Highest bid by: {{ auction_listing.get_highest_bid_user }}
+                                {% else %}
+                                    No bids yet.
+                                {% endif %}
                             {% else %}
-                                {% if auction_listing.get_highest_bid_user ==  request.user %}
+                                {% if auction_listing.get_highest_bid_user ==  request.user %}                                    
                                     {% if auction_listing.active %}
-                                    <p style="font-weight: bold;">You currently have the highest bid!</p>
+                                    <p style="font-weight: bold;color:green;">You currently have the highest bid!</p>
                                     {% else %}
                                     <p style="font-weight: bold;color:green;">You have won the auction!</p>
                                     {% endif %}
@@ -134,16 +138,17 @@
             </p>
         </div>
     </div>
-
+    <hr>
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12">
             <h4>User Comments:</h3>
             <form action="{% url 'create_comment' %}" method="POST">
                 {% csrf_token %}
-                <textarea name="comment" id="comment"></textarea>
-                <input type="hidden" value="{{ auction_listing.id  }}" name="auction_listing_id">
-                <input type="submit" value="Send Comment">
+                <textarea name="comment" id="comment" class="form-control" placeholder="Type comment here ..."></textarea>
+                <input type="hidden" class="form-control" value="{{ auction_listing.id  }}" name="auction_listing_id">
+                <input type="submit" class="btn btn-primary" value="Send Comment">
             </form>
+            <br >
             {% if auction_listing.comments.all %}
             {% for comment in auction_listing.comments.all %}
             <div class="card col-sm-12 col-md-12 col-lg-12 comment-card">
